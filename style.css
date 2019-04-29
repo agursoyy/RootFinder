@@ -1,0 +1,37 @@
+.methods {
+  margin-top: 40px;
+}
+
+.methods .row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.methods .row .card {
+  margin-right: 20px;
+}
+
+.methodBox {
+  background: url("methodBg.jpeg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  color: #fff;
+}
+
+.bw-2 {
+  border-width: 2px;
+}
+
+.container.input,
+.container.result {
+  max-width: 600px;
+  padding-right: 40px;
+  margin-top: 40px;
+}
+
+.container.result .table {
+  margin-top: 20px;
+}
