@@ -21,7 +21,7 @@ function returnMethodChoose() { // back button event
         $('.methods').delay(400).slideDown(500);
         $('.input').fadeOut(300);
         $('.result').fadeOut(300);
-        $( "#iterationTable" ).remove(); // clear table.
+        $( "#methodResult" ).remove(); // clear table.
 
         method = '';
         
@@ -89,7 +89,7 @@ function formSucceeds() {
         var parsedValue = parseFloat($(this)[0].value);
         formElements.push(parsedValue);
     });
-    var varray = findRoot(...formElements);
+    var varray = bisectionMethod(...formElements);
     if(varray == null) {
         $(".input").fadeOut(200);
         $('.methods').delay(400).slideDown(500);
@@ -102,7 +102,7 @@ function formSucceeds() {
     $('#input-form').trigger('reset'); // clear form values.
 
 }
-function findRoot(secondCoeff, firstCoeff, constant, a, b, tolerance) {
+function bisectionMethod(secondCoeff, firstCoeff, constant, a, b, tolerance) {
     if (func(a, secondCoeff, firstCoeff, constant) * func(b, secondCoeff, firstCoeff, constant) >= 0) {
         console.log("There is no root in the given interval!");
         alert("There is no root in the given interval!");
@@ -131,23 +131,35 @@ function findRoot(secondCoeff, firstCoeff, constant, a, b, tolerance) {
     }
 }
 
-function noRootInGivenInterval() {
-
-}
 
 function createTable(varray) {
-    $('.result .btn').after(
-        `<table class="table table-bordered table-striped table-hover" id="iterationTable">
+    $('.result .back').after(
+        `<div id="methodResult">
+        <table id="resultTable" class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
-                <th scope="col">a</th>
-                <th scope="col">b</th>
-                <th scope="col">c</th>
-                <th scope="col">error</th>
-                <th scope="col">k</th>
+                <th scope="col" class="head">a</th>
+                <th scope="col" class="head">b</th>
+                <th scope="col" class="head">c</th>
+                <th scope="col" class="head">error</th>
+                <th scope="col" class="head">k</th>
             </tr>
-        </thead>`);
-    //console.log(varray);
+        </thead>
+        <tbody>
+            
+        </tbody><table>
+        </div>`);
+
+    for(var i=0; i<varray.length; i++)
+    {
+        $("#resultTable tbody").append(
+         `<tr><th>${varray[i].a}</th><th>${varray[i].b}</th><th>${varray[i].c}</th><th>${varray[i].error}</th><th>${varray[i].k}</th></tr>`
+         );
+    }
+    let lastElement = varray.pop(); 
+    $("#methodResult").append(
+        `<div><b>ROOT: <span class="root">${lastElement.c.toFixed(3)}</span></b></div> 
+        <div><b>ROOT VALUE HAS BEEN OBTAINED IN <i><span class="root">${lastElement.k}</span></i> ITERATIONS</b></div>`);
 }
 
 function func(x, secondCoeff, firstCoeff, constant) {

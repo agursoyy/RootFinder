@@ -13,65 +13,67 @@
 </head>
 
 <body>
-    <div class="container methods">
-        <div class="row">
-            <div class="card text-center methodBox" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Newton-Raphson Iteration</h5>
-                    <a href="#" class="btn btn-outline-light bw-2 mt-5">Find Root</a>
+    <div id="content">
+        <div class="container methods">
+            <div class="row">
+                <div class="card text-center methodBox" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Newton-Raphson Iteration</h5>
+                        <a href="#" class="btn btn-outline-light bw-2 mt-5">Find Root</a>
+                    </div>
+                </div>
+                <div class="card text-center methodBox" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Von-Mises Method</h5>
+                        <a href="#" class="btn btn-outline-light bw-2 mt-5">Find Root</a>
+                    </div>
                 </div>
             </div>
-            <div class="card text-center methodBox" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Von-Mises Method</h5>
-                    <a href="#" class="btn btn-outline-light bw-2 mt-5">Find Root</a>
+            <div class="row">
+                <div class="card text-center methodBox" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Bisection Method</h5>
+                        <a href="#" class="btn btn-outline-light bw-2 mt-5">Find Root</a>
+                    </div>
+                </div>
+                <div class="card text-center methodBox" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Regula Falsi Method</h5>
+                        <a href="#" class="btn btn-outline-light bw-2 mt-5">Find Root</a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="card text-center methodBox" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Bisection Method</h5>
-                    <a href="#" class="btn btn-outline-light bw-2 mt-5">Find Root</a>
+    
+        <div class="container input">
+            <div class="border float-left mb-3">
+                <button class="btn btn-danger btn-sm back" ><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+            <form id="input-form">
+                <div class="form-group mb-4">
+                    <input type="text" class="form-control" name="secondCoeff" placeholder="Coefficient of x²" />
                 </div>
-            </div>
-            <div class="card text-center methodBox" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Regula Falsi Method</h5>
-                    <a href="#" class="btn btn-outline-light bw-2 mt-5">Find Root</a>
+                <div class="form-group mb-4">
+                    <input type="text" class="form-control"  name="firstCoeff" placeholder="Coefficient of x" />
                 </div>
-            </div>
+                <div class="form-group mb-4">
+                    <input type="text" class="form-control" name="constant" placeholder="Constant"/>
+                </div>
+                <div class="form-group mb-4">
+                    <input type="text" class="form-control" name="intervalStart" placeholder="Interval Start" />
+                </div>
+                <div class="form-group mb-4">
+                    <input type="text" class="form-control" name="intervalEnd" placeholder="Interval End"/>
+                </div>
+                <div class="form-group mb-4">
+                    <input type="text" class="form-control" name="tolerance" placeholder="Tolerance Value"/>
+                </div>
+                <button type="submit" class="btn btn-success btn-block form-submit-button">Find Root</button>
+            </form>
         </div>
-    </div>
-
-    <div class="container input">
-        <div class="border float-left mb-3">
-            <button class="btn btn-danger btn-sm back" ><i class="fas fa-arrow-left"></i> Back</button>
+        <div class="container result">
+            <button class="btn btn-danger btn-sm back"><i class="fas fa-arrow-left"></i> Back</button>
         </div>
-        <form id="input-form">
-            <div class="form-group mb-4">
-                <input type="text" class="form-control" name="secondCoeff" placeholder="Coefficient of x²" />
-            </div>
-            <div class="form-group mb-4">
-                <input type="text" class="form-control"  name="firstCoeff" placeholder="Coefficient of x" />
-            </div>
-            <div class="form-group mb-4">
-                <input type="text" class="form-control" name="constant" placeholder="Constant"/>
-            </div>
-            <div class="form-group mb-4">
-                <input type="text" class="form-control" name="intervalStart" placeholder="Interval Start" />
-            </div>
-            <div class="form-group mb-4">
-                <input type="text" class="form-control" name="intervalEnd" placeholder="Interval End"/>
-            </div>
-            <div class="form-group mb-4">
-                <input type="text" class="form-control" name="tolerance" placeholder="Tolerance Value"/>
-            </div>
-            <button type="submit" class="btn btn-success btn-block form-submit-button">Find Root</button>
-        </form>
-    </div>
-    <div class="container result">
-        <button class="btn btn-danger btn-sm back"><i class="fas fa-arrow-left"></i> Back</button>
     </div>
 </body>
 </html>
