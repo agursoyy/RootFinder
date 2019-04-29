@@ -25,7 +25,6 @@ function returnMethodChoose() { // back button event
 
         method = '';
         
-        
     })
 }
 
@@ -89,23 +88,28 @@ function formSucceeds() {
         var parsedValue = parseFloat($(this)[0].value);
         formElements.push(parsedValue);
     });
-    var varray = bisectionMethod(...formElements);
-    if(varray == null) {
-        $(".input").fadeOut(200);
-        $('.methods').delay(400).slideDown(500);
+    if(method=="bisection-method") {
+        var varray = bisectionMethod(...formElements);
+        if(varray == null) {
+            alert("There is no root in the given interval!");
+            $(".input").fadeOut(200);
+            $('.methods').delay(400).slideDown(500);
+        }
+        else {
+            createTable(varray);    
+            $(".input").fadeOut(200);
+            $(".result").delay(400).slideDown(500);
+        }
+        $('#input-form').trigger('reset'); // clear form values.
     }
-    else {
-        createTable(varray);    
-        $(".input").fadeOut(200);
-        $(".result").delay(400).slideDown(500);
+    else if(method == "newton-raphson-method") {
+ //.........
     }
-    $('#input-form').trigger('reset'); // clear form values.
+ 
 
 }
 function bisectionMethod(secondCoeff, firstCoeff, constant, a, b, tolerance) {
     if (func(a, secondCoeff, firstCoeff, constant) * func(b, secondCoeff, firstCoeff, constant) >= 0) {
-        console.log("There is no root in the given interval!");
-        alert("There is no root in the given interval!");
         return; // it returns null if it diverges.
     }
     else {
