@@ -13,18 +13,26 @@ function handleMethodChoose() {
         $('.methods').fadeOut(300);
         $('.input').delay(400).slideDown(500);
         method = $(this).parent().children().first()[0].innerText.toLowerCase().split(" ").join("-");
+        if (method == "bisection-method" || method == "regula-falsi-method") {
+            $('input[name=initialEstimate]').hide();
+        } else {
+            $('input[name=intervalStart]').hide();
+            $('input[name=intervalEnd]').hide();
+        }
     });
 }
 function returnMethodChoose() { // back button event
     $('.back').click(function () {
         $('#input-form').trigger('reset'); // clear form values.
+        $('input[name=initialEstimate]').show();
+        $('input[name=intervalStart]').show();
+        $('input[name=intervalEnd]').show();
         $('.methods').delay(400).slideDown(500);
         $('.input').fadeOut(300);
         $('.result').fadeOut(300);
         $("#methodResult").remove(); // clear table.
 
         method = '';
-
     })
 }
 
@@ -51,6 +59,10 @@ function handleInputButton() {
                 required: true,
                 number: true
             },
+            initialEstimate: {
+                required: true,
+                number: true
+            },
             tolerance: {
                 required: true,
                 number: true
@@ -72,6 +84,9 @@ function handleInputButton() {
             intervalEnd: {
                 required: "please specify upper bound of interval."
             },
+            initialEstimate: {
+                required: "please specify initial estimate value"
+            },
             tolerance: {
                 required: "please specify tolerance value."
             },
@@ -88,6 +103,8 @@ function formSucceeds() {
         var parsedValue = parseFloat($(this)[0].value);
         formElements.push(parsedValue);
     });
+    formElements = formElements.filter(el => !Number.isNaN(el));
+
     if (method == "bisection-method") {
         var varray = bisectionMethod(...formElements);
         if (varray == null) {
@@ -102,23 +119,23 @@ function formSucceeds() {
         }
         $('#input-form').trigger('reset'); // clear form values.
     }
-    else if (method == "newton-raphson-method") {
+    else if (method == "newton-raphson-iteration") {
         funcInputs.push(...formElements);
-        var varray = newton_raphson(regulaFunc, funcInputs[3], funcInputs[4], funcInputs[5]);
+        var varray = newton_raphson(regulaFunc, regulaFuncDeriv, funcInputs[3], funcInputs[4], funcInputs[5]);
         if (varray == null) {
             alert("There is no root in the given interval!");
             $(".input").fadeOut(200);
             $('.methods').delay(400).slideDown(500);
         }
         else {
-            //createTable(varray);
+            createTable2(varray);
             $(".input").fadeOut(200);
             $(".result").delay(400).slideDown(500);
         }
         $('#input-form').trigger('reset'); // clear form values.
     } else if (method == 'regula-falsi-method') {
         funcInputs.push(...formElements);
-        var varray = regulaFalsi(regulaFunc, funcInputs[3], funcInputs[4], funcInputs[5]);
+        var varray = regulaFalsi(regulaFunc, funcInputs[3], funcInputs[4]);
         if (varray == null) {
             alert("There is no root in the given interval!");
             $(".input").fadeOut(200);
@@ -191,6 +208,33 @@ function createTable(varray) {
         <div><b>ROOT VALUE HAS BEEN OBTAINED IN <i><span class="root">${lastElement.k}</span></i> ITERATIONS</b></div>`);
 }
 
+function createTable2(varray) {
+    $('.result .back').after(
+        `<div id="methodResult">
+        <table id="resultTable" class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col" class="head">rold</th>
+                <th scope="col" class="head">rnew</th>
+                <th scope="col" class="head">error</th>
+                <th scope="col" class="head">k</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody><table>
+        </div>`);
+
+    for (var i = 0; i < varray.length; i++) {
+        $("#resultTable tbody").append(
+            `<tr><th>${varray[i].rold}</th><th>${varray[i].rnew}</th><th>${varray[i].error}</th><th>${varray[i].k}</th></tr>`
+        );
+    }
+    let lastElement = varray.pop();
+    $("#methodResult").append(
+        `<div><b>ROOT: <span class="root">${lastElement.rold.toFixed(3)}</span></b></div>
+        <div><b>ROOT VALUE HAS BEEN OBTAINED IN <i><span class="root">${lastElement.k}</span></i> ITERATIONS</b></div>`);
+}
+
 function func(x, secondCoeff, firstCoeff, constant) {
     return secondCoeff * x * x + firstCoeff * x + constant;
 }
@@ -211,11 +255,9 @@ function newton_raphson(func, derFunc, initialApproximation, tolerance) {
         allIterations.push(Iteration);
 
         if (Math.abs(p - initialApproximation) < tolerance) {
-            console.log("Approximate root is " + p.toFixed(9) + " (found in " + i + " steps)");
             found = true;
             break;
         }
-        console.log(`Current approximation ${initialApproximation.toFixed(9)}`);
         initialApproximation = p;
     }
     if (found) {
@@ -245,7 +287,6 @@ function regulaFalsi(func, a, b, tolerance) {
     allIterations.push(Iteration);
     for (i = 1; i < max_steps; i++) {
         p = b - (func(b) * ((a - b) / (func(a) - func(b))));
-        console.log(`Current approximation is ${p.toFixed(9)}`);
 
         if (copysign(func(a), func(b)) != func(a)) {
             b = p;
@@ -257,11 +298,9 @@ function regulaFalsi(func, a, b, tolerance) {
         allIterations.push(Iteration);
 
         if (Math.abs(func(p)) < tolerance) {
-            console.log(`Root is ${p.toFixed(9)} (${i} iterations)`);
             return allIterations;
         }
     }
-    console.log(`Root find cancelled at ${p.toFixed(9)}`);
     return;
 }
 
