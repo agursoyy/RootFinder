@@ -4,7 +4,8 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
@@ -44,29 +45,32 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="container input">
             <div class="border float-left mb-3">
-                <button class="btn btn-danger btn-sm back" ><i class="fas fa-arrow-left"></i> Back</button>
+                <button class="btn btn-danger btn-sm back"><i class="fas fa-arrow-left"></i> Back</button>
             </div>
             <form id="input-form">
                 <div class="form-group mb-4">
                     <input type="text" class="form-control" name="secondCoeff" placeholder="Coefficient of x²" />
                 </div>
                 <div class="form-group mb-4">
-                    <input type="text" class="form-control"  name="firstCoeff" placeholder="Coefficient of x" />
+                    <input type="text" class="form-control" name="firstCoeff" placeholder="Coefficient of x" />
                 </div>
                 <div class="form-group mb-4">
-                    <input type="text" class="form-control" name="constant" placeholder="Constant"/>
+                    <input type="text" class="form-control" name="constant" placeholder="Constant" />
                 </div>
                 <div class="form-group mb-4">
                     <input type="text" class="form-control" name="intervalStart" placeholder="Interval Start" />
                 </div>
                 <div class="form-group mb-4">
-                    <input type="text" class="form-control" name="intervalEnd" placeholder="Interval End"/>
+                    <input type="text" class="form-control" name="intervalEnd" placeholder="Interval End" />
                 </div>
                 <div class="form-group mb-4">
-                    <input type="text" class="form-control" name="tolerance" placeholder="Tolerance Value"/>
+                    <input type="text" class="form-control" name="initialEstimate" placeholder="Initial Estimate" />
+                </div>
+                <div class="form-group mb-4">
+                    <input type="text" class="form-control" name="tolerance" placeholder="Tolerance Value" />
                 </div>
                 <button type="submit" class="btn btn-success btn-block form-submit-button">Find Root</button>
             </form>
@@ -76,4 +80,5 @@
         </div>
     </div>
 </body>
+
 </html>
