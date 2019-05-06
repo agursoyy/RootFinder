@@ -15,25 +15,27 @@ function handleMethodChoose() {
         method = $(this).parent().children().first()[0].innerText.toLowerCase().split(" ").join("-");
         if (method == "bisection-method" || method == "regula-falsi-method") {
             $('input[name=initialEstimate]').hide();
+            $('input[name=intervalStart]').show();
+            $('input[name=intervalEnd]').show();
         } else {
             $('input[name=intervalStart]').hide();
             $('input[name=intervalEnd]').hide();
+            $('input[name=initialEstimate]').show();
         }
     });
 }
+
 function returnMethodChoose() { // back button event
     $('.back').click(function () {
         $('#input-form').trigger('reset'); // clear form values.
-        $('input[name=initialEstimate]').show();
-        $('input[name=intervalStart]').show();
-        $('input[name=intervalEnd]').show();
+        funcInputs = [];
         $('.methods').delay(400).slideDown(500);
         $('.input').fadeOut(300);
         $('.result').fadeOut(300);
         $("#methodResult").remove(); // clear table.
 
         method = '';
-    })
+    });
 }
 
 function handleInputButton() {
@@ -119,9 +121,13 @@ function formSucceeds() {
         }
         $('#input-form').trigger('reset'); // clear form values.
     }
-    else if (method == "newton-raphson-iteration") {
+    else if (method == "newton-raphson-iteration" || method == 'von-mises-method') {
         funcInputs.push(...formElements);
-        var varray = newton_raphson(regulaFunc, regulaFuncDeriv, funcInputs[3], funcInputs[4], funcInputs[5]);
+        if (method == "newton-raphson-iteration") {
+            var varray = newton_raphson(funcx, derivFuncx, funcInputs[3], funcInputs[4], funcInputs[5]);
+        } else {
+            var varray = von_mises(funcx, derivFuncx, funcInputs[3], funcInputs[4], funcInputs[5]);
+        }
         if (varray == null) {
             alert("There is no root in the given interval!");
             $(".input").fadeOut(200);
@@ -135,7 +141,7 @@ function formSucceeds() {
         $('#input-form').trigger('reset'); // clear form values.
     } else if (method == 'regula-falsi-method') {
         funcInputs.push(...formElements);
-        var varray = regulaFalsi(regulaFunc, funcInputs[3], funcInputs[4]);
+        var varray = regulaFalsi(funcx, funcInputs[3], funcInputs[4]);
         if (varray == null) {
             alert("There is no root in the given interval!");
             $(".input").fadeOut(200);
@@ -148,8 +154,6 @@ function formSucceeds() {
         }
         $('#input-form').trigger('reset'); // clear form values.
     }
-
-
 }
 function bisectionMethod(secondCoeff, firstCoeff, constant, a, b, tolerance) {
     if (func(a, secondCoeff, firstCoeff, constant) * func(b, secondCoeff, firstCoeff, constant) >= 0) {
@@ -266,7 +270,33 @@ function newton_raphson(func, derFunc, initialApproximation, tolerance) {
     return;
 }
 
-function regulaFunc(x) {
+function von_mises(func, derFunc, initialApproximation, tolerance) {
+    var p = 0.0;
+    var max_steps = 30;
+    var i = 0;
+    var found = false;
+    var derivative = derFunc(initialApproximation);
+    let Iteration = { rold: initialApproximation, rnew: p, error: Math.abs(p - initialApproximation), k: i };
+    let allIterations = [];
+    allIterations.push(Iteration);
+    for (i = 1; i < max_steps; i++) {
+        p = initialApproximation - func(initialApproximation) / derivative;
+        Iteration = { rold: initialApproximation, rnew: p, error: Math.abs(p - initialApproximation), k: i };
+        allIterations.push(Iteration);
+
+        if (Math.abs(p - initialApproximation) < tolerance) {
+            found = true;
+            break;
+        }
+        initialApproximation = p;
+    }
+    if (found) {
+        return allIterations;
+    }
+    return;
+}
+
+function funcx(x) {
     return func(x, funcInputs[0], funcInputs[1], funcInputs[2]);
 }
 
@@ -274,7 +304,7 @@ function derivFunc(x, secondCoeff, firstCoeff) {
     return 2 * secondCoeff * x + firstCoeff;
 }
 
-function regulaFuncDeriv(x) {
+function derivFuncx(x) {
     return derivFunc(x, funcInputs[0], funcInputs[1]);
 }
 
@@ -308,6 +338,3 @@ function copysign(x, y) {
     var sign = y > 0 ? 1 : -1;
     return Math.abs(x) * sign;
 }
-
-//console.log(func(1,1,0,-3));
-//console.log(findRoot(1,1,0,-3,1,2,0.01));
